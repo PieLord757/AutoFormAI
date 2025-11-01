@@ -8,3 +8,5 @@ __pycache__/
 .Python
 env/
 venv/
+responses.txt
+test_responses.xt

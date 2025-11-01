@@ -9,4 +9,13 @@ __pycache__/
 env/
 venv/
 responses.txt
-test_responses.xt
+test_responses.txt
+final_test.txt
+high_temp_test.txt
+very_high_temp_test.txt
+
+# Text files (except requirements.txt and robots.txt)
+*.txt
+!requirements.txt
+!**/requirements.txt
+!robots.txt

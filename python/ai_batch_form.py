@@ -26,10 +26,11 @@ URL = 'https://docs.google.com/forms/d/e/1FAIpQLScuPmKJ0tP8_3bXYRsXbtITNXPJ3rON4
 # 設定提示詞
 PROMPT_PARTS = [
     "You are a form-filling assistant. Fill out the following form questions with realistic, reasonable answers.",
+    "IMPORTANT: Create DIVERSE responses. Vary your choices across ALL questions.",
     "Instructions:",
-    "- For multiple choice questions, select ONE option from the provided choices",
-    "- For linear scale questions (1-10), pick a number in the middle range (e.g., 5-7)",
-    "- For short answer questions, provide brief, realistic responses (e.g., numbers like '3', '20', '7' for count/hour questions)",
+    "- For multiple choice questions, RANDOMLY select ONE option - distribute choices evenly across all options",
+    "- For linear scale questions (1-10), vary between 1-10, don't cluster around middle values",
+    "- For short answer questions, provide varied numeric responses (e.g., '2', '7', '15', '25', '40' for different responses)",
     "- Answer ALL questions in order",
     "- Return answers as a JSON array in the EXACT same order as the questions",
     "- Use empty string \"\" only if a question is optional and you cannot provide an answer",
@@ -37,12 +38,11 @@ PROMPT_PARTS = [
     "- For date format use: {\"year\": YYYY, \"month\": MM, \"day\": DD}",
     "- For time format use: {\"hour\": HH, \"minute\": MM}",
     "",
-    "Example responses:",
-    "- For 'How many movies?': \"5\"",
-    "- For 'Hours per week?': \"20\"",
-    "- For 'Favorite item?' with options ['A', 'B', 'C']: \"B\"",
-    "- For scale 1-10: \"7\"",
-    "- Vary your answers to create diversity in responses",
+    "CRITICAL: Make each response UNIQUE and DIFFERENT. Spread answers across the full range of options.",
+    "Example diverse responses:",
+    "- Scale 1-10: Response 1=\"3\", Response 2=\"7\", Response 3=\"9\", Response 4=\"2\", Response 5=\"8\"",
+    "- Hours: Response 1=\"5\", Response 2=\"20\", Response 3=\"35\", Response 4=\"10\", Response 5=\"50\"",
+    "- Choice [A,B,C,D]: Distribute evenly - don't favor any option",
 ]
 
 SECTION_TYPE = ["簡答","詳答","選擇題","下拉式選單","核取方塊","線性刻度","標題","單選方格/核取方格","區段","日期","時間","圖片","12","檔案"]
@@ -286,8 +286,8 @@ def main():
                         help='Output file for URLs (default: responses.txt)')
     parser.add_argument('--delay', type=float, default=4.0, 
                         help='Delay in seconds between API requests (default: 4.0s for 15 RPM limit)')
-    parser.add_argument('--temperature', type=float, default=1.2, 
-                        help='AI temperature for randomness 0.0-2.0 (default: 1.2)')
+    parser.add_argument('--temperature', type=float, default=1.8, 
+                        help='AI temperature for randomness 0.0-2.0 (default: 1.8 for maximum variation)')
     args = parser.parse_args()
 
     target_url = args.form_url if args.form_url else URL
